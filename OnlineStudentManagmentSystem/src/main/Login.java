@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,7 +36,10 @@ public class Login extends HttpServlet {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                resp.sendRedirect("Dashboard.jsp");
+                HttpSession session = req.getSession();
+                session.setAttribute("username",username);
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/Dashboard.jsp");
+                requestDispatcher.forward(req,resp);
             }
             else{
                 resp.setContentType("text/html");

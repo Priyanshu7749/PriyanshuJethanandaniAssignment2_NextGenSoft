@@ -15,6 +15,7 @@
             <th>Phone</th>
             <th>Course</th>
             <th>Year of Study</th>
+            <th>Action</th>
         </tr>
         <%
             ArrayList<Student> students = (ArrayList<Student>) request.getAttribute("students");
@@ -27,6 +28,9 @@
             <td><%= student.getPhone() %></td>
             <td><%= student.getCourse() %></td>
             <td><%= student.getYearOfStudy() %></td>
+            <td><form action="updatestudent" method="post">
+            <input type="hidden" name ="email" value="<%= student.getEmail()%>">
+            <input type="submit" value="update"></form></td>
         </tr>
         <%
                 }
