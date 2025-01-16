@@ -13,7 +13,7 @@
     <a href="AddStudent.jsp">Add Student</a>
     <a href="studentlist">Student List</a>
     <a href="updatestudent">Update Student</a>
-    <a href="DeleteStudent.jsp">Delete Student</a>
+    <a href="deletestudent">Delete Student</a>
     <form action="logout" method="post">
     <input type="submit" value="logout">
     </form>

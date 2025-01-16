@@ -1,5 +1,6 @@
 package main;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -42,10 +43,10 @@ public class AddStudent extends HttpServlet {
 
             int result = preparedStatement.executeUpdate();
             if(result>0){
-                printWriter.println("Inserted Successfully");
-            }
-            else {
-                printWriter.println("There is some Issue.");
+                resp.setContentType("text/html");
+                printWriter.println("<h3>Inserted Successfully</h3>");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
+                requestDispatcher.include(req,resp);
             }
         }catch (SQLException e){
             e.printStackTrace();

@@ -6,30 +6,26 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
-@WebServlet("/updatestudent")
-public class UpdateStudent extends HttpServlet {
+@WebServlet("/deletestudent")
+public class DeleteStudent extends HttpServlet {
     private static final String url = "jdbc:postgresql://localhost:5432/StudentManagmentSystem";
     private static final String username = "postgres";
     private static final String password = "priyanshu";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         try{
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e){
             e.printStackTrace();
         }
-
-        String query = "SELECT * FROM students";
-        try(Connection connection = DriverManager.getConnection(url,username,password);  PreparedStatement preparedStatement = connection.prepareStatement(query); ){
-
+        String query = "select * from students";
+        try(Connection connection = DriverManager.getConnection(url,username,password); PreparedStatement preparedStatement = connection.prepareStatement(query)){
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Student> students = new ArrayList<>();
             while (resultSet.next()){
@@ -43,8 +39,9 @@ public class UpdateStudent extends HttpServlet {
                 students.add(student);
             }
             req.setAttribute("students",students);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/UpdateStudent.jsp");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/DeleteStudent.jsp");
             requestDispatcher.forward(req,resp);
+
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -53,19 +50,25 @@ public class UpdateStudent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
-        String name = req.getParameter("name");
-        String phone = req.getParameter("phone");
-        String course = req.getParameter("course");
-        int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
-        System.out.println(name);
-        System.out.println(year_of_study);
-        HttpSession session = req.getSession();
-        session.setAttribute("name",name);
-        session.setAttribute("email",email);
-        session.setAttribute("phone",phone);
-        session.setAttribute("course",course);
-        session.setAttribute("year_of_study",year_of_study);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateStudentForm.jsp");
-        requestDispatcher.include(req,resp);
+//        System.out.println(email);
+        String query = "DELETE FROM students WHERE email = ?";
+        try(Connection connection = DriverManager.getConnection(url,username,password); PrintWriter printWriter = resp.getWriter(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1,email);
+            int result = preparedStatement.executeUpdate();
+            if(result !=0){
+                resp.setContentType("text/html");
+                printWriter.println("<h3>Data Deleted Successfully.</h3>");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
+                requestDispatcher.include(req,resp);
+            }
+            else {
+                resp.setContentType("text/html");
+                printWriter.println("<h3>Data not Found..</h3>");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
+                requestDispatcher.include(req,resp);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
