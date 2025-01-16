@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Login</title>
+</head>
+<body>
+    <form action="login" method="post">
+        <input type="text" placeholder="Enter Username" name ="username">
+        <input type="password" placeholder="Enter your Password" name="password">
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
