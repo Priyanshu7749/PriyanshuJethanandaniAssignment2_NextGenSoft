@@ -43,7 +43,8 @@ public class Login extends HttpServlet {
             }
             else{
                 resp.setContentType("text/html");
-                printWriter.println("<h3>Enter proper Credentials</h3>");
+                HttpSession session = req.getSession();
+                session.setAttribute("credentials","Enter proper Credentials.");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
                 requestDispatcher.include(req,resp);
             }

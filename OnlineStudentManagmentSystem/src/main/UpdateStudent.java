@@ -57,8 +57,7 @@ public class UpdateStudent extends HttpServlet {
         String phone = req.getParameter("phone");
         String course = req.getParameter("course");
         int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
-        System.out.println(name);
-        System.out.println(year_of_study);
+
         HttpSession session = req.getSession();
         session.setAttribute("name",name);
         session.setAttribute("email",email);

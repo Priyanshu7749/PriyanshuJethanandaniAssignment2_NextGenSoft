@@ -50,7 +50,6 @@ public class DeleteStudent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
-//        System.out.println(email);
         String query = "DELETE FROM students WHERE email = ?";
         try(Connection connection = DriverManager.getConnection(url,username,password); PrintWriter printWriter = resp.getWriter(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,email);

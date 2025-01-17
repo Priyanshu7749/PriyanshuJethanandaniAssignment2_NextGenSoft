@@ -34,13 +34,13 @@ public class UpdateStudentForm extends HttpServlet {
         String course = req.getParameter("course");
         int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
 
-        String query = "UPDATE students SET name =?, email=?, phone=?, course=?, year_of_study=?";
+        String query = "UPDATE students SET name =?, phone=?, course=?, year_of_study=? WHERE email = ?";
         try(Connection connection = DriverManager.getConnection(url,username,password); PrintWriter printWriter = resp.getWriter(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,name);
-            preparedStatement.setString(2,email);
-            preparedStatement.setString(3,phone);
-            preparedStatement.setString(4,course);
-            preparedStatement.setInt(5,year_of_study);
+            preparedStatement.setString(2,phone);
+            preparedStatement.setString(3,course);
+            preparedStatement.setInt(4,year_of_study);
+            preparedStatement.setString(5,email);
             int result = preparedStatement.executeUpdate();
             if(result>0){
                 resp.setContentType("text/html");
