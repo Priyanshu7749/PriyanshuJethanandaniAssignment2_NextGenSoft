@@ -18,7 +18,23 @@ public class AddStudent extends HttpServlet {
     private static final String password = "priyanshu";
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+        }
+
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/AddStudent.jsp");
+            requestDispatcher.include(req,resp);
+
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+        }
         PrintWriter printWriter = resp.getWriter();
         try{
             Class.forName("org.postgresql.Driver");
@@ -26,16 +42,15 @@ public class AddStudent extends HttpServlet {
             e.printStackTrace();
         }
 
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String course = req.getParameter("course");
+        int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
+        String query = String.format("INSERT INTO students(name,email,phone,course,year_of_study) VALUES(?,?,?,?,?)");
+        try(Connection connection = DriverManager.getConnection(url,username,password);
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
 
-        try(Connection connection = DriverManager.getConnection(url,username,password)){
-            String name = req.getParameter("name");
-            String email = req.getParameter("email");
-            String phone = req.getParameter("phone");
-            String course = req.getParameter("course");
-            int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
-
-            String query = String.format("INSERT INTO students(name,email,phone,course,year_of_study) VALUES(?,?,?,?,?)");
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,name);
             preparedStatement.setString(2,email);
             preparedStatement.setString(3,phone);
@@ -45,13 +60,19 @@ public class AddStudent extends HttpServlet {
             int result = preparedStatement.executeUpdate();
             if(result>0){
                 resp.setContentType("text/html");
-                HttpSession session = req.getSession();
                 session.setAttribute("inserted","Student Added Successfully!!!");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                 requestDispatcher.include(req,resp);
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            if(e.getErrorCode() == 0){
+                req.setAttribute("email_exists","Email already Exists.");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/AddStudent.jsp");
+                requestDispatcher.include(req,resp);
+            }
+            else{
+                e.printStackTrace();
+            }
         }
     }
 }

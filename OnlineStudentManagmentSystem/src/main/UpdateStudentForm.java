@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +21,10 @@ public class UpdateStudentForm extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+        }
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -45,7 +50,8 @@ public class UpdateStudentForm extends HttpServlet {
                 ResultSet resultSet = selectstatement.executeQuery();
                 if (resultSet.next() && resultSet.getInt(1) > 0) {
                     resp.setContentType("text/html");
-                    printWriter.println("<h3>Email already exists. Please try with a different email.</h3>");
+//                    printWriter.println("<h3>Email already exists. Please try with a different email.</h3>");
+                    req.setAttribute("email_exists","Email already Exists.");
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateStudentForm.jsp");
                     requestDispatcher.include(req, resp);
                     return;
@@ -62,7 +68,8 @@ public class UpdateStudentForm extends HttpServlet {
 
                 if (result > 0) {
                     resp.setContentType("text/html");
-                    printWriter.println("<h3>Data Updated Successfully</h3>");
+//                    HttpSession  session = req.getSession();
+                    session.setAttribute("updated","Data Updated Successfully!!!");
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                     requestDispatcher.include(req, resp);
                 } else {

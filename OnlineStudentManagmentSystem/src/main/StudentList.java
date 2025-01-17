@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.awt.dnd.DragGestureEvent;
 import java.io.IOException;
@@ -21,6 +22,10 @@ public class StudentList extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+        }
         PrintWriter printWriter = resp.getWriter();
         try{
             Class.forName("org.postgresql.Driver");
@@ -47,7 +52,7 @@ public class StudentList extends HttpServlet {
             }
             req.setAttribute("students",students);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/StudentList.jsp");
-            requestDispatcher.forward(req,resp);
+            requestDispatcher.include(req,resp);
         }catch (SQLException e){
             e.printStackTrace();
         }

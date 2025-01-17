@@ -53,8 +53,7 @@
             border-radius: 10px;
         }
         .right-part{
-            float:right;
-            margin-top: -400px;
+        margin-top: -480px;
         }
         .header img{
             width: 25px;
@@ -91,13 +90,77 @@
             margin-left: 25px;
             opacity: 0.7;
         }
+        .wrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-left: 20%;
+                }
+
+                .form-container {
+                    background: #ffffff;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                    text-align: center;
+                    width: 100%;
+                    max-width: 400px;
+                }
+
+                .form-container h2 {
+                    margin-bottom: 15px;
+                    font-size: 20px;
+                    color: #333;
+                }
+            .form-container label {
+                display: block;
+                text-align: left;
+                font-size: 12px;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 3px;
+            }
+                .form-container input[type="text"],
+                .form-container input[type="email"],
+                .form-container input[type="submit"] {
+                    width: 80%;
+                    padding: 8px 10px;
+                    margin: 5px 0 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    font-size: 14px;
+                }
+
+                .form-container input[type="text"]:focus,
+                .form-container input[type="email"]:focus {
+                    border-color: #2575fc;
+                    outline: none;
+                    box-shadow: 0 0 3px rgba(37, 117, 252, 0.5);
+                }
+
+                .form-container input[type="submit"] {
+                    background: linear-gradient(to right, #6a11cb, #2575fc);
+                    color: #fff;
+                    border: none;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 14px;
+                    padding: 8px;
+                    transition: all 0.3s ease;
+                    width: 50%;
+                }
+            .email_exists{
+                color: red;
+                align-text: center;
+                font-size: large;
+            }
 
     </style>
 </head>
 <body>
 <div class="header">
         <img src="data-report.png" class="dashboard-img"/><a href="Dashboard.jsp"  class="dashboard">Dashboard</a>
-        <img src="addstudent.png" class="addstudent-img"/><a href="AddStudent.jsp" class="a" style="position: absolute; margin-top: 170px;">Add Student</a>
+        <img src="addstudent.png" class="addstudent-img"/><a href="addstudent" class="a" style="position: absolute; margin-top: 170px;">Add Student</a>
         <img src="studentlist.png" class="studentlist-img"/><a href="studentlist" class="a" style="position: absolute; margin-top: 220px;">Student List</a>
         <img src="update.png" class="updatestudent-img"/><a href="updatestudent" class="a" style="position: absolute; margin-top: 270px;">Update Student</a>
         <img src="deletestudent.png" class="deletestudent-img"/><a href="deletestudent" class="a" style="position: absolute; margin-top: 320px;">Delete Student</a>
@@ -114,15 +177,34 @@
     String course = (String) session.getAttribute("course");
     int year_of_study = (int) session.getAttribute("year_of_study");
    %>
-<form action="updatestudentform" method="post">
-    <input type="text" placeholder="Enter Name" name="name" value="<%= name%>" required>
-    <input type="email" placeholder="Enter Email" name="email" value="<%= email %>" required>
-    <input type="text"  placeholder="Enter Phone Number" name="phone" value="<%= phone %>" required>
-    <input type="text" placeholder="Course Name" name="course" value="<%= course %>" required>
-    <input type="text"  placeholder="Year of Study" name="year_of_study" value = "<%= year_of_study %>" required>
-    <input type="hidden" name="currentEmail" value="<%= email %>">
-    <input type="submit" value="Submit">
-</form>
+
+<div class="wrapper">
+            <div class="form-container">
+                <h2><u>Update Student Details</u></h2>
+                <form action="updatestudentform" method="post">
+                    <% String email_exist = (String) request.getAttribute("email_exists");
+                        if(email_exist != null){
+                    %>
+                    <div class="email_exists"><%= email_exist %></div>
+                    <%
+                        }
+                    %>
+                    <label for="name">Name:</label>
+                    <input type="text" placeholder="Enter Name" name="name" value="<%= name%>" required>
+                    <label for="name">Email:</label>
+                    <input type="email" placeholder="Enter Email" name="email" value="<%= email %>" required>
+                    <label for="name">Phone:</label>
+                    <input type="text" placeholder="Enter Phone Number" name="phone"  value="<%= phone %>" required>
+                    <label for="name">Course:</label>
+                    <input type="text" placeholder="Course Name" name="course" value="<%= course %>" required>
+                    <label for="name">Year of Study:</label>
+                    <input type="text" placeholder="Year of Study" name="year_of_study" value = "<%= year_of_study %>" required>
+                    <input type="hidden" name="currentEmail" value="<%= email %>">
+                    <input type="submit" value="Submit">
+
+                </form>
+            </div>
+        </div>
 </div>
 </body>
 </html>

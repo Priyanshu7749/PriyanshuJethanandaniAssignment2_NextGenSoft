@@ -19,6 +19,8 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+
         try{
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -36,16 +38,14 @@ public class Login extends HttpServlet {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                HttpSession session = req.getSession();
                 session.setAttribute("username",username);
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/Dashboard.jsp");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                 requestDispatcher.forward(req,resp);
             }
             else{
                 resp.setContentType("text/html");
-                HttpSession session = req.getSession();
-                session.setAttribute("credentials","Enter proper Credentials.");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
+                session.setAttribute("credentials","Enter Proper Credentials.");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
                 requestDispatcher.include(req,resp);
             }
         }catch (SQLException e){

@@ -66,6 +66,7 @@
         %>
         <div class="error-message"><%= error %></div>
         <%
+            session.removeAttribute("credentials");
             }
         %>
         <input type="text" placeholder=" Enter Username" name="username">

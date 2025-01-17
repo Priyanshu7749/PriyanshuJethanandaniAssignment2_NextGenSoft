@@ -20,6 +20,10 @@ public class DeleteStudent extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+        }
         try{
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e){
@@ -41,7 +45,7 @@ public class DeleteStudent extends HttpServlet {
             }
             req.setAttribute("students",students);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/DeleteStudent.jsp");
-            requestDispatcher.forward(req,resp);
+            requestDispatcher.include(req,resp);
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -50,6 +54,10 @@ public class DeleteStudent extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+        }
         String email = req.getParameter("email");
         String query = "DELETE FROM students WHERE email = ?";
         try(Connection connection = DriverManager.getConnection(url,username,password); PrintWriter printWriter = resp.getWriter(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
@@ -58,10 +66,10 @@ public class DeleteStudent extends HttpServlet {
             if(result !=0){
                 resp.setContentType("text/html");
 //                printWriter.println("<h3>Data Deleted Successfully.</h3>");
-                HttpSession session = req.getSession();
-                session.setAttribute("deleted","Student Deleted..");
+//                HttpSession session = req.getSession();
+                session.setAttribute("deleted","Student Data Deleted..");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
-                requestDispatcher.forward(req,resp);
+                requestDispatcher.include(req,resp);
             }
             else {
                 resp.setContentType("text/html");

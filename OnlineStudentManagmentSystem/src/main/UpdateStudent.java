@@ -21,6 +21,11 @@ public class UpdateStudent extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+
+        }
         try{
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e){
@@ -44,7 +49,7 @@ public class UpdateStudent extends HttpServlet {
             }
             req.setAttribute("students",students);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/UpdateStudent.jsp");
-            requestDispatcher.forward(req,resp);
+            requestDispatcher.include(req,resp);
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -52,13 +57,17 @@ public class UpdateStudent extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp");
+        }
         String email = req.getParameter("email");
         String name = req.getParameter("name");
         String phone = req.getParameter("phone");
         String course = req.getParameter("course");
         int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
 
-        HttpSession session = req.getSession();
+//        HttpSession session = req.getSession();
         session.setAttribute("name",name);
         session.setAttribute("email",email);
         session.setAttribute("phone",phone);
