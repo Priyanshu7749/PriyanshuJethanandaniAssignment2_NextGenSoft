@@ -97,6 +97,26 @@
                     margin-left: 25px;
                     opacity: 0.7;
                 }
+                .add-student{
+                position: absolute;
+                align-text: center;
+                margin-top: 10px;
+                margin-left: 285px;
+                font-size: xx-large;
+                color: #4CAF50;
+                }
+                .delete_student{
+                    position: absolute;
+                    align-text: center;
+                    margin-top: 10px;
+                    margin-left: 350px;
+                    font-size: xx-large;
+                    color: red;
+                }
+                .delete_student img{
+                width: 30px;
+                height: 30px;
+                }
     </style>
 </head>
 <body>
@@ -105,6 +125,25 @@
     %>
     <div class="right-part">
     <h3 class="welcome">Welcome: <%= username%> </h3>
+    <%
+        String addsuccessfull = (String) session.getAttribute("inserted");
+        if(addsuccessfull != null){
+    %>
+    <div class="add-student"><%= addsuccessfull %></div>
+    <%
+        session.removeAttribute("inserted");
+        }
+    %>
+
+    <%
+            String delete_student = (String) session.getAttribute("deleted");
+            if(delete_student != null){
+        %>
+        <div class="delete_student"><%= delete_student %><img src="https://cdn.jsdelivr.net/emojione/assets/4.0/png/128/1f61e.png"/></div>
+        <%
+            session.removeAttribute("deleted");
+            }
+        %>
     </div>
     <div class="header">
     <img src="data-report.png" class="dashboard-img"/><a href="Dashboard.jsp"  class="dashboard">Dashboard</a>
@@ -113,8 +152,9 @@
     <img src="update.png" class="updatestudent-img"/><a href="updatestudent" class="a" style="position: absolute; margin-top: 270px;">Update Student</a>
     <img src="deletestudent.png" class="deletestudent-img"/><a href="deletestudent" class="a" style="position: absolute; margin-top: 320px;">Delete Student</a>
     <form action="logout" method="post">
-    <input type="submit" value="logout" class="logout-btn">
-    </div>
+    <input type="submit" value="Logout" class="logout-btn">
+
     </form>
+    </div>
 </body>
 </html>

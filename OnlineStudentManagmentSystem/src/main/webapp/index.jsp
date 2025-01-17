@@ -68,8 +68,8 @@
         <%
             }
         %>
-        <input type="text" placeholder="Enter Username" name="username">
-        <input type="password" placeholder="Enter your Password" name="password">
+        <input type="text" placeholder=" Enter Username" name="username">
+        <input type="password" placeholder=" Enter your Password" name="password">
         <input type="submit" value="Login"><br>
     </form>
 </div>
