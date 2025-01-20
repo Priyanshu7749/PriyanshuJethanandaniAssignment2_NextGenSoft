@@ -30,7 +30,7 @@
 ## Delete Student Details:
 ![Screenshot 2025-01-20 170544](https://github.com/user-attachments/assets/fbbf939c-8607-400c-8d76-005f307e07ec)
 
-Installation
+## Installation
 
 1. Clone the repository:
     cd PriyanshuJethanandaniAssignment2_NextGenSoft
