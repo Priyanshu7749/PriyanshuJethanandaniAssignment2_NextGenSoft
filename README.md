@@ -16,7 +16,7 @@ Installation
 1. Clone the repository:
     cd PriyanshuJethanandaniAssignment2_NextGenSoft
 3. create the database in postgresql name as StudentManagmentSystem
-4. create the table name admin(id (Primary Key, Auto Increment),username(VARCHAR, Unique),password(VARCHAR) and studentsid (Primary Key, Auto Increment), name (VARCHAR), email (VARCHAR, Unique), phone (VARCHAR), course (VARCHAR), year_of_study (INT) in StudentManagmentSystem database.
+4. create the table name admin(id (Primary Key, Auto Increment),username(VARCHAR, Unique),password(VARCHAR)) and students(id (Primary Key, Auto Increment), name (VARCHAR), email (VARCHAR, Unique), phone (VARCHAR), course (VARCHAR), year_of_study (INT)) in StudentManagmentSystem database.
 5. Install JDBC Driver Jar file for Postgresql.
 6. Install Apache Tomcat.
 8. import Servlet api and Postgresql jar into project file.
