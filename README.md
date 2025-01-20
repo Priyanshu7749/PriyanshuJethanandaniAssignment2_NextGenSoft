@@ -10,6 +10,10 @@ Technology Stacks:
    Backend: Java,Servlet,JDBC
    Database: Postgresql
 
+Admin Login:
+![image](https://github.com/user-attachments/assets/e9bf9200-46b9-4cc3-950d-3498007f67c2)
+
+
 Add Student Deatils:
 ![Screenshot 2025-01-20 170001](https://github.com/user-attachments/assets/5df014c5-fa1f-4b7b-9615-8e9733c63845)
 
