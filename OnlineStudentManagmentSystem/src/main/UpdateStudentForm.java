@@ -42,7 +42,6 @@ public class UpdateStudentForm extends HttpServlet {
                 ResultSet resultSet = selectstatement.executeQuery();
                 if (resultSet.next() && resultSet.getInt(1) > 0) {
                     resp.setContentType("text/html");
-//                    printWriter.println("<h3>Email already exists. Please try with a different email.</h3>");
                     req.setAttribute("email_exists","Email already Exists.");
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateStudentForm.jsp");
                     requestDispatcher.include(req, resp);
@@ -60,7 +59,6 @@ public class UpdateStudentForm extends HttpServlet {
 
                 if (result > 0) {
                     resp.setContentType("text/html");
-//                    HttpSession  session = req.getSession();
                     session.setAttribute("updated","Data Updated Successfully.");
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                     requestDispatcher.include(req, resp);

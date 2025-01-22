@@ -193,11 +193,11 @@
                     <label for="name">Email:<span style="color: red;">*</span></label>
                     <input type="email" placeholder="Enter Email" name="email" value="<%= email %>" required>
                     <label for="name">Phone:<span style="color: red;">*</span></label>
-                    <input type="text" placeholder="Enter Phone Number" name="phone"  value="<%= phone %>" required>
+                    <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')"  maxlength="10" placeholder="Enter Phone Number" name="phone"  value="<%= phone %>" required>
                     <label for="name">Course:<span style="color: red;">*</span></label>
                     <input type="text" placeholder="Course Name" name="course" value="<%= course %>" required>
                     <label for="name">Year of Study:<span style="color: red;">*</span></label>
-                    <input type="text" placeholder="Year of Study" name="year_of_study" value = "<%= year_of_study %>" required>
+                    <input type="text" placeholder="Year of Study" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="year_of_study" value = "<%= year_of_study %>" required>
                     <input type="hidden" name="currentEmail" value="<%= email %>">
                     <input type="submit" value="Submit">
                     <%

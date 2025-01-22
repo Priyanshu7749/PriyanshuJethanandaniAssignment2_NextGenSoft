@@ -162,6 +162,15 @@
      </style>
 </head>
 <body>
+
+<script>
+function validationForm(){
+    var name = document.forms["addform"]["name"].value;
+    if (name == ""){
+        alert("Name is required");
+        return false;
+    }
+</script>
 <div class="header">
     <img src="data-report.png" class="dashboard-img"/><a href="Dashboard.jsp"  class="dashboard">Dashboard</a>
     <img src="addstudent.png" class="addstudent-img"/><a href="addstudent" class="a" style="position: absolute; margin-top: 170px;">Add Student</a>
@@ -177,18 +186,18 @@
     <div class="wrapper">
             <div class="form-container">
                 <h2><u>Add Student Details</u></h2>
-                <form action="addstudent" method="post">
+                <form action="addstudent" method="post" name="addform" onsubmit="return validationForm()">
                     <p>(<span style="color: red; position: absolute; margin-top: 3px;">*</span><span style="position: absolute; margin-left: 10px;">means field required)</span></p>
                     <label for="name">Name:<span style="color: red;">*</span></label>
                     <input type="text" placeholder="Enter Name" name="name" required>
                     <label for="name">Email:<span style="color: red;">*</span></label>
                     <input type="email" placeholder="Enter Email" name="email" required>
                     <label for="name">Phone:<span style="color: red;">*</span></label>
-                    <input type="text" placeholder="Enter Phone Number" name="phone" required>
+                    <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="10" placeholder="Enter Phone Number" name="phone" required>
                     <label for="name">Course:<span style="color: red;">*</span></label>
                     <input type="text" placeholder="Course Name" name="course" required>
                     <label for="name">Year of Study:<span style="color: red;">*</span></label>
-                    <input type="text" placeholder="Year of Study" name="year_of_study" required>
+                    <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Year of Study" name="year_of_study" required>
                     <input type="submit" value="Submit">
                     <%
                         String email_exist = (String) request.getAttribute("email_exists");
