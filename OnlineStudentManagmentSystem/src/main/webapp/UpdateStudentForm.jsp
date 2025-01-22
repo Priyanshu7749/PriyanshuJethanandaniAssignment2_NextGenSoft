@@ -111,6 +111,7 @@
                     margin-bottom: 15px;
                     font-size: 20px;
                     color: #333;
+                    margin-top: 3px;
                 }
             .form-container label {
                 display: block;
@@ -154,7 +155,11 @@
                 align-text: center;
                 font-size: large;
             }
-
+            .form-container p{
+                text-align: left;
+                margin-bottom: 2px;
+                margin-top: -8px;
+            }
     </style>
 </head>
 <body>
@@ -182,16 +187,16 @@
             <div class="form-container">
                 <h2><u>Update Student Details</u></h2>
                 <form action="updatestudentform" method="post">
-
-                    <label for="name">Name:</label>
+                    <p>(<span style="color: red; position: absolute; margin-top: 3px;">*</span><span style="position: absolute; margin-left: 10px;">means field required)</span></p>
+                    <label for="name">Name:<span style="color: red;">*</span></label>
                     <input type="text" placeholder="Enter Name" name="name" value="<%= name%>" required>
-                    <label for="name">Email:</label>
+                    <label for="name">Email:<span style="color: red;">*</span></label>
                     <input type="email" placeholder="Enter Email" name="email" value="<%= email %>" required>
-                    <label for="name">Phone:</label>
+                    <label for="name">Phone:<span style="color: red;">*</span></label>
                     <input type="text" placeholder="Enter Phone Number" name="phone"  value="<%= phone %>" required>
-                    <label for="name">Course:</label>
+                    <label for="name">Course:<span style="color: red;">*</span></label>
                     <input type="text" placeholder="Course Name" name="course" value="<%= course %>" required>
-                    <label for="name">Year of Study:</label>
+                    <label for="name">Year of Study:<span style="color: red;">*</span></label>
                     <input type="text" placeholder="Year of Study" name="year_of_study" value = "<%= year_of_study %>" required>
                     <input type="hidden" name="currentEmail" value="<%= email %>">
                     <input type="submit" value="Submit">

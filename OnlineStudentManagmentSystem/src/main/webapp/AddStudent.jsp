@@ -105,12 +105,17 @@
                     text-align: center;
                     width: 100%;
                     max-width: 400px;
+                    margin-top: -15px;
                 }
-
+                .form-container p{
+                    text-align: left;
+                    margin-bottom: 2px;
+                }
                 .form-container h2 {
-                    margin-bottom: 15px;
+                    margin-bottom: 10px;
                     font-size: 20px;
                     color: #333;
+                    margin-top: 3px;
                 }
             .form-container label {
                 display: block;
@@ -173,25 +178,26 @@
             <div class="form-container">
                 <h2><u>Add Student Details</u></h2>
                 <form action="addstudent" method="post">
-                    <% String email_exist = (String) request.getAttribute("email_exists");
+                    <p>(<span style="color: red; position: absolute; margin-top: 3px;">*</span><span style="position: absolute; margin-left: 10px;">means field required)</span></p>
+                    <label for="name">Name:<span style="color: red;">*</span></label>
+                    <input type="text" placeholder="Enter Name" name="name" required>
+                    <label for="name">Email:<span style="color: red;">*</span></label>
+                    <input type="email" placeholder="Enter Email" name="email" required>
+                    <label for="name">Phone:<span style="color: red;">*</span></label>
+                    <input type="text" placeholder="Enter Phone Number" name="phone" required>
+                    <label for="name">Course:<span style="color: red;">*</span></label>
+                    <input type="text" placeholder="Course Name" name="course" required>
+                    <label for="name">Year of Study:<span style="color: red;">*</span></label>
+                    <input type="text" placeholder="Year of Study" name="year_of_study" required>
+                    <input type="submit" value="Submit">
+                    <%
+                        String email_exist = (String) request.getAttribute("email_exists");
                         if(email_exist != null){
                     %>
                     <div class="email_exists"><%= email_exist %></div>
                     <%
                         }
                     %>
-                    <label for="name">Name:</label>
-                    <input type="text" placeholder="Enter Name" name="name" required>
-                    <label for="name">Email:</label>
-                    <input type="email" placeholder="Enter Email" name="email" required>
-                    <label for="name">Phone:</label>
-                    <input type="text" placeholder="Enter Phone Number" name="phone" required>
-                    <label for="name">Course:</label>
-                    <input type="text" placeholder="Course Name" name="course" required>
-                    <label for="name">Year of Study:</label>
-                    <input type="text" placeholder="Year of Study" name="year_of_study" required>
-                    <input type="submit" value="Submit">
-
                 </form>
             </div>
         </div>

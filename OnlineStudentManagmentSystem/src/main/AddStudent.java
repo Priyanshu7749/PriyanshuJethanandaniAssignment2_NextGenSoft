@@ -60,7 +60,7 @@ public class AddStudent extends HttpServlet {
             int result = preparedStatement.executeUpdate();
             if(result>0){
                 resp.setContentType("text/html");
-                session.setAttribute("inserted","Student Added Successfully!!!");
+                session.setAttribute("inserted","Student Added Successfully.");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                 requestDispatcher.include(req,resp);
             }

@@ -69,7 +69,7 @@ public class UpdateStudentForm extends HttpServlet {
                 if (result > 0) {
                     resp.setContentType("text/html");
 //                    HttpSession  session = req.getSession();
-                    session.setAttribute("updated","Data Updated Successfully!!!");
+                    session.setAttribute("updated","Data Updated Successfully.");
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                     requestDispatcher.include(req, resp);
                 } else {
