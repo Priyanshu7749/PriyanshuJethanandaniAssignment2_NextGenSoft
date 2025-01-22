@@ -15,20 +15,12 @@ import java.sql.*;
 
 @WebServlet("/updatestudentform")
 public class UpdateStudentForm extends HttpServlet {
-    private static final String url = "jdbc:postgresql://localhost:5432/StudentManagmentSystem";
-    private static final String username = "postgres";
-    private static final String password = "priyanshu";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
             resp.sendRedirect("login.jsp");
-        }
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         String name = req.getParameter("name");
@@ -41,10 +33,10 @@ public class UpdateStudentForm extends HttpServlet {
         String selectquery = "SELECT COUNT(*) FROM students WHERE email = ? AND email != ?";
         String updatequery = "UPDATE students SET name = ?, email = ?, phone = ?, course = ?, year_of_study = ? WHERE email = ?";
 
-        try (Connection connection = DriverManager.getConnection(url, username, password);
+        try (Connection dbconnection = DbConnection.getConnection();
              PrintWriter printWriter = resp.getWriter()) {
 
-            try (PreparedStatement selectstatement = connection.prepareStatement(selectquery)) {
+            try (PreparedStatement selectstatement = dbconnection.prepareStatement(selectquery)) {
                 selectstatement.setString(1, email);
                 selectstatement.setString(2, currentEmail);
                 ResultSet resultSet = selectstatement.executeQuery();
@@ -57,7 +49,7 @@ public class UpdateStudentForm extends HttpServlet {
                     return;
                 }
             }
-            try (PreparedStatement updatestatement = connection.prepareStatement(updatequery)) {
+            try (PreparedStatement updatestatement = dbconnection.prepareStatement(updatequery)) {
                 updatestatement.setString(1, name);
                 updatestatement.setString(2, email);
                 updatestatement.setString(3, phone);

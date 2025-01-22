@@ -14,10 +14,6 @@ import java.sql.*;
 import java.util.ArrayList;
 @WebServlet("/updatestudent")
 public class UpdateStudent extends HttpServlet {
-    private static final String url = "jdbc:postgresql://localhost:5432/StudentManagmentSystem";
-    private static final String username = "postgres";
-    private static final String password = "priyanshu";
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -26,14 +22,9 @@ public class UpdateStudent extends HttpServlet {
             resp.sendRedirect("login.jsp");
 
         }
-        try{
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }
-
         String query = "SELECT * FROM students";
-        try(Connection connection = DriverManager.getConnection(url,username,password);  PreparedStatement preparedStatement = connection.prepareStatement(query); ){
+        try(Connection dbconnection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = dbconnection.prepareStatement(query); ){
 
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Student> students = new ArrayList<>();
@@ -67,7 +58,6 @@ public class UpdateStudent extends HttpServlet {
         String course = req.getParameter("course");
         int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
 
-//        HttpSession session = req.getSession();
         session.setAttribute("name",name);
         session.setAttribute("email",email);
         session.setAttribute("phone",phone);

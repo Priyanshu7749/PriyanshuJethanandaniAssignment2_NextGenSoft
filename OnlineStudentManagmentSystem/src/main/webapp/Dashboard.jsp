@@ -146,7 +146,7 @@
             String delete_student = (String) session.getAttribute("deleted");
             if(delete_student != null){
         %>
-        <div class="delete_student"><%= delete_student %><img src="https://cdn.jsdelivr.net/emojione/assets/4.0/png/128/1f61e.png"/></div>
+        <div class="delete_student"><%= delete_student %></div>
         <%
             session.removeAttribute("deleted");
             }

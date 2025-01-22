@@ -8,14 +8,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.Properties;
+
 @WebServlet("/addstudent")
 public class AddStudent extends HttpServlet {
-    private static final String url = "jdbc:postgresql://localhost:5432/StudentManagmentSystem";
-    private static final String username = "postgres";
-    private static final String password = "priyanshu";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,11 +37,6 @@ public class AddStudent extends HttpServlet {
             resp.sendRedirect("login.jsp");
         }
         PrintWriter printWriter = resp.getWriter();
-        try{
-            Class.forName("org.postgresql.Driver");
-        }catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }
 
         String name = req.getParameter("name");
         String email = req.getParameter("email");
@@ -48,8 +44,8 @@ public class AddStudent extends HttpServlet {
         String course = req.getParameter("course");
         int year_of_study = Integer.parseInt(req.getParameter("year_of_study"));
         String query = String.format("INSERT INTO students(name,email,phone,course,year_of_study) VALUES(?,?,?,?,?)");
-        try(Connection connection = DriverManager.getConnection(url,username,password);
-            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try(Connection dbConnection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = dbConnection.prepareStatement(query)){
 
             preparedStatement.setString(1,name);
             preparedStatement.setString(2,email);

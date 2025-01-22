@@ -13,26 +13,17 @@ import java.io.PrintWriter;
 import java.sql.*;
 @WebServlet("/login")
 public class Login extends HttpServlet {
-    private static final String url = "jdbc:postgresql://localhost:5432/StudentManagmentSystem";
-    private static final String username = "postgres";
-    private static final String password = "priyanshu";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
 
-        try{
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try(Connection connection = DriverManager.getConnection(url,username,password)){
+        try(Connection dbconnection = DbConnection.getConnection();){
             String username = req.getParameter("username");
             String password = req.getParameter("password");
             PrintWriter printWriter = resp.getWriter();
             String query = String.format("SELECT * FROM admin WHERE username=? AND password=?",username,password);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = dbconnection.prepareStatement(query);
             preparedStatement.setString(1,username);
             preparedStatement.setString(2,password);
 

@@ -14,23 +14,16 @@ import java.sql.*;
 import java.util.ArrayList;
 @WebServlet("/deletestudent")
 public class DeleteStudent extends HttpServlet {
-    private static final String url = "jdbc:postgresql://localhost:5432/StudentManagmentSystem";
-    private static final String username = "postgres";
-    private static final String password = "priyanshu";
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
             resp.sendRedirect("login.jsp");
         }
-        try{
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }
+
         String query = "select * from students";
-        try(Connection connection = DriverManager.getConnection(url,username,password); PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try(Connection dbconnection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = dbconnection.prepareStatement(query)){
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Student> students = new ArrayList<>();
             while (resultSet.next()){
@@ -60,20 +53,19 @@ public class DeleteStudent extends HttpServlet {
         }
         String email = req.getParameter("email");
         String query = "DELETE FROM students WHERE email = ?";
-        try(Connection connection = DriverManager.getConnection(url,username,password); PrintWriter printWriter = resp.getWriter(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try(Connection dbconnection = DbConnection.getConnection();
+            PrintWriter printWriter = resp.getWriter(); PreparedStatement preparedStatement = dbconnection.prepareStatement(query)){
             preparedStatement.setString(1,email);
             int result = preparedStatement.executeUpdate();
             if(result !=0){
                 resp.setContentType("text/html");
-//                printWriter.println("<h3>Data Deleted Successfully.</h3>");
-//                HttpSession session = req.getSession();
-                session.setAttribute("deleted","Student Data Deleted..");
+                session.setAttribute("deleted","Student Data Deleted.");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                 requestDispatcher.include(req,resp);
             }
             else {
                 resp.setContentType("text/html");
-                session.setAttribute("deleted","Data not Found..");
+                session.setAttribute("deleted","Data not Found.");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                 requestDispatcher.include(req,resp);
             }
