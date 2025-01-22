@@ -182,13 +182,7 @@
             <div class="form-container">
                 <h2><u>Update Student Details</u></h2>
                 <form action="updatestudentform" method="post">
-                    <% String email_exist = (String) request.getAttribute("email_exists");
-                        if(email_exist != null){
-                    %>
-                    <div class="email_exists"><%= email_exist %></div>
-                    <%
-                        }
-                    %>
+
                     <label for="name">Name:</label>
                     <input type="text" placeholder="Enter Name" name="name" value="<%= name%>" required>
                     <label for="name">Email:</label>
@@ -201,7 +195,14 @@
                     <input type="text" placeholder="Year of Study" name="year_of_study" value = "<%= year_of_study %>" required>
                     <input type="hidden" name="currentEmail" value="<%= email %>">
                     <input type="submit" value="Submit">
-
+                    <%
+                        String email_exist = (String) request.getAttribute("email_exists");
+                        if(email_exist != null){
+                    %>
+                    <div class="email_exists"><%= email_exist %></div>
+                    <%
+                        }
+                    %>
                 </form>
             </div>
         </div>

@@ -73,7 +73,7 @@ public class DeleteStudent extends HttpServlet {
             }
             else {
                 resp.setContentType("text/html");
-                printWriter.println("<h3>Data not Found..</h3>");
+                session.setAttribute("deleted","Data not Found..");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("Dashboard.jsp");
                 requestDispatcher.include(req,resp);
             }

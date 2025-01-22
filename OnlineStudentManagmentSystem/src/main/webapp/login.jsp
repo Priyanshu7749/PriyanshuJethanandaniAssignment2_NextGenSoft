@@ -50,7 +50,8 @@
         .error-message {
             color: red;
             text-align: center;
-            font-size: 14px;
+            font-size: large;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -60,6 +61,10 @@
 </div>
 <div>
     <form action="login" method="post" class="login-form">
+
+        <input type="text" placeholder=" Enter Username" name="username">
+        <input type="password" placeholder=" Enter your Password" name="password">
+        <input type="submit" value="Login"><br>
         <%
             String error = (String) session.getAttribute("credentials");
             if (error != null) {
@@ -69,9 +74,6 @@
             session.removeAttribute("credentials");
             }
         %>
-        <input type="text" placeholder=" Enter Username" name="username">
-        <input type="password" placeholder=" Enter your Password" name="password">
-        <input type="submit" value="Login"><br>
     </form>
 </div>
 </body>
